@@ -8,7 +8,6 @@ public class TravelAppApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TravelAppApplication.class, args);
-        System.out.println("Aboba");
     }
 
 }
