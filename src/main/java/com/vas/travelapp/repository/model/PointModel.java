@@ -1,50 +1,29 @@
-package com.vas.travelapp.domain.entity;
+package com.vas.travelapp.repository.model;
 
+import com.vas.travelapp.common.PointType;
+import com.vas.travelapp.common.PriceLevel;
 import lombok.*;
+import org.bson.json.JsonObject;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Set;
+import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @EqualsAndHashCode
 @ToString
-@Document("users")
-public class User implements UserDetails {
-    @Transient
-    public static final String SEQUENCE_NAME = "user_sequence";
-
+@Builder
+@Document("points")
+public class PointModel {
     @Id
     private Long id;
-    private String username;
-    private String password;
-    private Set<Role> authorities;
-    private boolean enabled = true;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return enabled;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return enabled;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return enabled;
-    }
-
-    public User(String username, String password, Set<Role> authorities, boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.authorities = authorities;
-        this.enabled = enabled;
-    }
+    private String name;
+    private AddressModel address;
+    private List<String> tags;
+    private PointType type;
+    private List<OperationHoursModel> workSchedule;
+    private PriceLevel priceLevel;
+    private JsonObject additionalInfo;
 }

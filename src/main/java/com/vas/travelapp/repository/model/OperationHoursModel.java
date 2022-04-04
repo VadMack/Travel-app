@@ -1,27 +1,21 @@
 package com.vas.travelapp.repository.model;
 
-import com.vas.travelapp.domain.entity.Role;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-import java.util.Set;
+import java.time.*;
 
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
 @ToString
-@Builder
-@Document("points")
-public class PointModel {
+@Document("opHours")
+public class OperationHoursModel {
     @Id
     private Long id;
 
-    private AddressModel address;
-
-    private List<String> tags;
-
-    private List<OperationHoursModel> authorities;
-    private boolean enabled = true;
+    private DayOfWeek dayOfWeek;
+    private LocalTime openingTime;
+    private LocalTime closeTime;
 }

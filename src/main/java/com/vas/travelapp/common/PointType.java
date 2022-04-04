@@ -1,8 +1,10 @@
 package com.vas.travelapp.common;
 
-public enum PointTypes {
+public enum PointType {
     THEATER,
     CASINO,
     CAFE,
-    
+    BAR,
+    PARK
+    ;
 }

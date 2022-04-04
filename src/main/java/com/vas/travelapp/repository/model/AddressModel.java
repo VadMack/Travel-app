@@ -1,24 +1,23 @@
 package com.vas.travelapp.repository.model;
 
-import com.vas.travelapp.domain.entity.Role;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.Set;
 
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
 @ToString
-@Builder
-@Document("points")
-public class PointModel {
+@Document("addresses")
+public class AddressModel {
     @Id
     private Long id;
 
-    private String name;
-    private String tag;
-    private Set<Role> authorities;
-    private boolean enabled = true;
+    private String streetNumber;
+    private String StreetName;
+    private String cityName;
+    private String countryName;
+    private String postalCode;
+    private Double latitude;
+    private Double longitude;
 }
