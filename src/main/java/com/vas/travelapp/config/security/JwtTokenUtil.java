@@ -1,7 +1,7 @@
 package com.vas.travelapp.config.security;
 
 
-import com.vas.travelapp.domain.entity.User;
+import com.vas.travelapp.domain.user.User;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

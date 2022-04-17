@@ -1,9 +1,11 @@
 version: '3'
+
 services:
+
   mongo:
     container_name: mongo
-    image: mongo:5.0
-    restart: on-failure
+    image: mongo:latest
+    restart: unless-stopped
     ports:
       - "27017:27017"
     environment:

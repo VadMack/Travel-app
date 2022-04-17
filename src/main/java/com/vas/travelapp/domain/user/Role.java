@@ -1,4 +1,4 @@
-package com.vas.travelapp.domain.entity;
+package com.vas.travelapp.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
