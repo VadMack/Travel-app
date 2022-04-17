@@ -1,4 +1,4 @@
-package com.vas.travelapp.utils.mongo.migration;
+package com.vas.travelapp.utils.migration;
 
 import com.vas.travelapp.domain.user.User;
 import com.vas.travelapp.domain.user.UserRepository;
