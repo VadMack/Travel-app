@@ -1,10 +1,11 @@
 package com.vas.travelapp.config.security;
 
-import com.vas.travelapp.domain.entity.Role;
-import com.vas.travelapp.domain.entity.User;
-import com.vas.travelapp.repository.UserRepository;
-import com.vas.travelapp.util.SequenceGeneratorService;
+import com.vas.travelapp.domain.user.Role;
+import com.vas.travelapp.domain.user.User;
+import com.vas.travelapp.domain.user.UserRepository;
+import com.vas.travelapp.utils.mongo.SequenceGeneratorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,26 +33,31 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${security.user:user}")
+    private String user;
+    @Value("${security.admin:admin}")
+    private String admin;
+
     private final JwtTokenFilter jwtTokenFilter;
     private final UserRepository userRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
 
     @Override
-    public void configure(AuthenticationManagerBuilder builder)
-            throws Exception {
+    @SuppressWarnings({"java:S1117", "java:S5344"})
+    public void configure(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(username -> {
             if (userRepository.findAll().isEmpty()) {
                 User user = new User(
                         sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
-                        "user",
-                        passwordEncoder().encode("user"),
+                        this.user,
+                        passwordEncoder().encode(this.user),
                         Set.of(new Role(Role.ROLE_USER)),
                         true
                 );
                 User admin = new User(
                         sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
-                        "admin",
-                        passwordEncoder().encode("admin"),
+                        this.admin,
+                        passwordEncoder().encode(this.admin),
                         Set.of(new Role(Role.ROLE_ADMIN)),
                         true
                 );

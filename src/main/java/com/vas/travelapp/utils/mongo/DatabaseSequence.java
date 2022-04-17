@@ -1,4 +1,4 @@
-package com.vas.travelapp.util;
+package com.vas.travelapp.utils.mongo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
