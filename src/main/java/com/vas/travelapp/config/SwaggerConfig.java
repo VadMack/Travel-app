@@ -13,10 +13,9 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI(@Value("${app-version}") String version) {
         return new OpenAPI()
-                .info(new Info()
-                        .title("Travel-app")
+                .info(new Info().title("Travel-app")
                         .version(version)
-                        .description("Coarse work №3")
+                        .description("Course work №3")
                 );
     }
 }

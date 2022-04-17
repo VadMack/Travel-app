@@ -1,4 +1,4 @@
-package com.vas.travelapp.domain.dto;
+package com.vas.travelapp.api.dtos;
 
 import lombok.Data;
 

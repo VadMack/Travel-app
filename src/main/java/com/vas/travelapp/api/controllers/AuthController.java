@@ -1,10 +1,10 @@
-package com.vas.travelapp.controller;
+package com.vas.travelapp.api.controllers;
 
 
+import com.vas.travelapp.api.dtos.AuthRequest;
+import com.vas.travelapp.api.dtos.UserDto;
 import com.vas.travelapp.config.security.JwtTokenUtil;
-import com.vas.travelapp.domain.dto.AuthRequest;
-import com.vas.travelapp.domain.dto.UserDto;
-import com.vas.travelapp.domain.entity.User;
+import com.vas.travelapp.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import javax.validation.Valid;
 

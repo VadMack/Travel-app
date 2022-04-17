@@ -1,7 +1,7 @@
-package com.vas.travelapp.domain.dto;
+package com.vas.travelapp.api.dtos;
 
 
-import com.vas.travelapp.domain.entity.Role;
+import com.vas.travelapp.domain.user.Role;
 import lombok.Data;
 
 import java.util.Set;
