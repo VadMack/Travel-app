@@ -4,6 +4,7 @@ import com.vas.travelapp.api.dtos.RouteDto;
 import com.vas.travelapp.api.mappers.RouteMapper;
 import com.vas.travelapp.domain.route.RouteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class RouteController {
     private final RouteService routeService;
     private final RouteMapper routeMapper;
 
-    @RequestMapping("/")
+    @GetMapping(value = "/", produces = "application/json")
     public RouteDto route() {
         return routeMapper.toDto(routeService.getRoute());
     }

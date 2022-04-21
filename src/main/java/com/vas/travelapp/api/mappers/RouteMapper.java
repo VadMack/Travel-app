@@ -6,6 +6,12 @@ import com.vas.travelapp.domain.route.Route;
 public class RouteMapper {
     // todo: implement
     public RouteDto toDto(Route route) {
-        return null;
+        if (route == null) {
+            return null;
+        }
+
+        RouteDto routeDto = new RouteDto();
+        routeDto.setId(route.getId());
+        return routeDto;
     }
 }

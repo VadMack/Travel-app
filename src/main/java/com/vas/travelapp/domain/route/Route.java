@@ -1,8 +1,13 @@
 package com.vas.travelapp.domain.route;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data // todo: implement
+// todo: implement
+@Getter
+@Setter
+@AllArgsConstructor
 public class Route {
-
+    private Long id;
 }
