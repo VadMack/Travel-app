@@ -1,4 +1,4 @@
-package com.vadmack.core.config.security;
+package com.vas.travelapp.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -42,8 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .and();
 
+        // A temporary solution for development
         http.authorizeRequests()
-                .antMatchers("/hi").hasRole("USER");
+                .antMatchers("/**").permitAll();
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

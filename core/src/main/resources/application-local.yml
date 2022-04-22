@@ -1,6 +1,6 @@
 app-version: "1.0"
 authorization:
-  secret:  # fixme: replace with real secret
+  secret: # fixme: replace with real secret
 spring:
   data:
     mongodb:

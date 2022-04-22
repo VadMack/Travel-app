@@ -2,12 +2,22 @@ version: '3'
 
 services:
 
-  mongo:
-    container_name: mongo
+  mongo-core:
+    container_name: mongo-core
     image: mongo:latest
     restart: unless-stopped
     ports:
       - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+
+  mongo-auth:
+    container_name: mongo-auth
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - "27018:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin

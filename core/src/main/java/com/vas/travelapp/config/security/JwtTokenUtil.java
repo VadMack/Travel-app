@@ -1,14 +1,16 @@
 package com.vas.travelapp.config.security;
 
 
-import com.vas.travelapp.domain.user.User;
+import com.vas.travelapp.domain.user.Role;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Log4j2
 @Component
@@ -18,14 +20,6 @@ public class JwtTokenUtil {
     @Value("${authorization.secret}")
     private String secret;
 
-    public String generateAccessToken(User user) {
-        return Jwts.builder()
-                .setSubject(String.format("%s,%s", user.getId(), user.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)) // 24 hours
-                .signWith(SignatureAlgorithm.HS512, secret)
-                .compact();
-    }
 
     public boolean validate(String token) {
         try {
@@ -51,6 +45,15 @@ public class JwtTokenUtil {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject().split(",")[1];
+    }
+
+    public List<Role> getRoles(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
+        List<String> authorities = (List<String>) claims.get("Authorities");
+        return authorities.stream().map(Role::new).collect(Collectors.toList());
     }
 
 }

@@ -1,6 +1,8 @@
 package com.vas.travelapp.config.security;
 
-import com.vas.travelapp.domain.user.UserRepository;
+
+import com.vas.travelapp.domain.user.Role;
+import com.vas.travelapp.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
@@ -16,14 +18,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-    private final UserRepository repository;
     private final JwtTokenUtil jwtTokenUtil;
 
     @Override
@@ -33,7 +33,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (header == null || !header.startsWith("Bearer ")) {
+        if (header == null || header.isEmpty() || !header.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
         }
@@ -44,13 +44,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        UserDetails userDetails = repository
-                .findByUsername(jwtTokenUtil.getUsername(token))
-                .orElse(null);
+        List<Role> authorities = jwtTokenUtil.getRoles(token);
+
+        UserDetails userDetails = new User(jwtTokenUtil.getUsername(token),
+                new HashSet<>(authorities), true);
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null,
-                Optional.ofNullable(userDetails).map(UserDetails::getAuthorities).orElse(Collections.emptyList())
+                Optional.of(userDetails).map(UserDetails::getAuthorities).orElse(Collections.emptyList())
         );
 
         authentication

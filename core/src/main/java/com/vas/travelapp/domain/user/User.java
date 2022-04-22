@@ -1,4 +1,4 @@
-package com.vadmack.core.domain.entity;
+package com.vas.travelapp.domain.user;
 
 import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
