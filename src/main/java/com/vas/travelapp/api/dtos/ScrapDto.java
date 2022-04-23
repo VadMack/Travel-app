@@ -9,4 +9,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ScrapDto {
     private Long id;
+    private String name;
+    private String description;
+    private String imageUrl;
+    private String address;
+    private String phone;
+    private String website;
+
 }

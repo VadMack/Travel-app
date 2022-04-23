@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api/private/routes")
 @RequiredArgsConstructor
@@ -17,7 +19,7 @@ public class RouteController {
     private final RouteMapper routeMapper;
 
     @GetMapping(value = "/", produces = "application/json")
-    public RouteDto route() {
+    public List<RouteDto> route() {
         return routeMapper.toDto(routeService.getRoute());
     }
 

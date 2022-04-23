@@ -10,4 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Route {
     private Long id;
+    private String name;
+    private String description;
 }
