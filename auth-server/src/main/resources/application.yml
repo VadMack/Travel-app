@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: auth-server
+  data:
+    mongodb:
+      authentication-database: admin
+      database: travel-app
+      host: localhost
+      password: admin
+      port: 27018
+      username: admin
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: efbaf1924aa2b3c0df98
+            clientSecret: a6c4339e90c26ac80493416a34cad46dd8f87db4
+
+
+app-version: "1.0"
+
+authorization:
+  # temporary solution
+  secret: temporarySecret
+
+  # right solution
+  #secret: ${AUTH_SECRET}
+
+
+server:
+  port: 8082
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+mongock:
+  migration-scan-package: com.vas.travelapp.migration

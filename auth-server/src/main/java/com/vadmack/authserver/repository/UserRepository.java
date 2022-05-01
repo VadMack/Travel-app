@@ -2,6 +2,7 @@ package com.vadmack.authserver.repository;
 
 
 import com.vadmack.authserver.domain.entity.User;
+import com.vadmack.authserver.domain.entity.UserType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -16,4 +17,6 @@ public interface UserRepository extends MongoRepository<User, Long> {
 
     List<User> findAllByUsernameLikeIgnoreCase(String namePart, Sort sort);
     List<User> findAllByUsernameLikeIgnoreCase(String namePart, Pageable pageable);
+
+    Optional<User> findFirstByUsernameAndUserType(String username, UserType userType);
 }

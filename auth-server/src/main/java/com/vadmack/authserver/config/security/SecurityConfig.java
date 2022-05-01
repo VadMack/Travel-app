@@ -2,8 +2,8 @@ package com.vadmack.authserver.config.security;
 
 import com.vadmack.authserver.domain.entity.Role;
 import com.vadmack.authserver.domain.entity.User;
+import com.vadmack.authserver.domain.entity.UserType;
 import com.vadmack.authserver.repository.UserRepository;
-
 import com.vadmack.authserver.util.SequenceGeneratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,16 +14,17 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +39,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final SequenceGeneratorService sequenceGeneratorService;
 
     @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http = http.cors().and().csrf().disable();
+
+        http.authorizeRequests()
+                .antMatchers("/auth").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .oauth2Login();
+
+        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Bean
+    public AuthorizationRequestRepository<OAuth2AuthorizationRequest>
+    authorizationRequestRepository() {
+
+        return new HttpSessionOAuth2AuthorizationRequestRepository();
+    }
+
+    @Override
     public void configure(AuthenticationManagerBuilder builder)
             throws Exception {
         builder.userDetailsService(username -> {
@@ -47,43 +68,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "user",
                         passwordEncoder().encode("user"),
                         Set.of(new Role(Role.ROLE_USER)),
-                        true
+                        true,
+                        UserType.PASSWORD
                 );
                 User admin = new User(
                         sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
                         "admin",
                         passwordEncoder().encode("admin"),
                         Set.of(new Role(Role.ROLE_ADMIN)),
-                        true
+                        true,
+                        UserType.PASSWORD
                 );
                 userRepository.saveAll(List.of(user, admin));
             }
             return userRepository.findByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException(String.format("User: %s, not found", username)));
         });
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http = http.cors().and().csrf().disable();
-
-        http = http
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and();
-
-        http = http
-                .exceptionHandling()
-                .authenticationEntryPoint(
-                        (request, response, ex) ->
-                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage())
-                )
-                .and();
-
-        http.authorizeRequests()
-                .antMatchers("/api/public/**").permitAll();
-
-        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

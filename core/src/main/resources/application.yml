@@ -1,7 +1,7 @@
 app-version: "1.0"
 authorization:
   # temporary solution
-  secret:  "TGNqaCtOUzVNZFdSerSXhZelEyTFRJelMVJrRmAbobaME5wUlZaRWN0ZUhsehMUT09"
+  secret: temporarySecret
 
   # right solution
   #secret: ${AUTH_SECRET}

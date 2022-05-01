@@ -25,6 +25,7 @@ public class User implements UserDetails {
     private String password;
     private Set<Role> authorities;
     private boolean enabled = true;
+    private UserType userType;
 
     @Override
     public boolean isAccountNonExpired() {
@@ -46,5 +47,13 @@ public class User implements UserDetails {
         this.password = password;
         this.authorities = authorities;
         this.enabled = enabled;
+    }
+
+    public User(Long id, String username, Set<Role> authorities, boolean enabled, UserType userType) {
+        this.id = id;
+        this.username = username;
+        this.authorities = authorities;
+        this.enabled = enabled;
+        this.userType = userType;
     }
 }
