@@ -31,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody @Valid AuthRequest request) {
-        User user = userService.createUser(request, UserType.PASSWORD);
+        User user = userService.checkIfExistsOrCreate(request, UserType.PASSWORD);
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
@@ -59,7 +59,7 @@ public class AuthController {
 
     @GetMapping("/oauth2/github")
     public ResponseEntity<UserDto> loginWithGithub(OAuth2AuthenticationToken principal) {
-        User user = userService.checkIsExistsOrCreate(principal.getPrincipal()
+        User user = userService.checkIfExistsOrCreate((String) principal.getPrincipal()
                 .getAttribute("login"), UserType.GITHUB);
         System.out.println(user);
         return ResponseEntity.ok()

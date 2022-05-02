@@ -50,7 +50,13 @@ public class UserService {
         return userRepository.insert(user);
     }
 
-    public User checkIsExistsOrCreate(String username, UserType userType) {
+    public User checkIfExistsOrCreate(AuthRequest request, UserType userType) {
+        Optional<User> optionalUser = userRepository.findFirstByUsernameAndUserType(request.getUsername(),
+                userType);
+        return optionalUser.orElseGet(() -> createUser(request, userType));
+    }
+
+    public User checkIfExistsOrCreate(String username, UserType userType) {
         Optional<User> optionalUser = userRepository.findFirstByUsernameAndUserType(username,
                 userType);
         return optionalUser.orElseGet(() -> createUser(username, userType));
