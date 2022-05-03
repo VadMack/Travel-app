@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http = http.cors().and().csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/auth").permitAll()
+                .antMatchers("/api/public/auth").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login();
