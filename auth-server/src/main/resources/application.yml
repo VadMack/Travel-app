@@ -9,6 +9,7 @@ spring:
       password: admin
       port: 27018
       username: admin
+      auto-index-creation: true
   security:
     oauth2:
       client:

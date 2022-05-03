@@ -3,6 +3,7 @@ package com.vadmack.authserver.domain.entity;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,10 +11,8 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
+@Data
+@CompoundIndex(name = "ind_username_userType", def = "{'username': 1, 'userType': 1}", unique = true)
 @Document("users")
 public class User implements UserDetails {
     @Transient
