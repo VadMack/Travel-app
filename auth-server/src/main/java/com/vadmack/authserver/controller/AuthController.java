@@ -3,6 +3,7 @@ package com.vadmack.authserver.controller;
 import com.vadmack.authserver.config.security.JwtTokenUtil;
 import com.vadmack.authserver.domain.dto.AuthRequest;
 import com.vadmack.authserver.domain.dto.UserDto;
+import com.vadmack.authserver.domain.entity.Role;
 import com.vadmack.authserver.domain.entity.User;
 import com.vadmack.authserver.domain.entity.UserType;
 import com.vadmack.authserver.service.UserService;
@@ -17,6 +18,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/api/public")
@@ -29,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody @Valid AuthRequest request) {
-        User user = userService.checkIfExistsOrCreate(request, UserType.PASSWORD);
+        User user = userService.checkIfExistsOrCreate(request, UserType.PASSWORD, Set.of(new Role(Role.ROLE_USER)));
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
@@ -58,7 +60,7 @@ public class AuthController {
     @GetMapping("/oauth2/github")
     public ResponseEntity<UserDto> loginWithGithub(OAuth2AuthenticationToken principal) {
         User user = userService.checkIfExistsOrCreate((String) principal.getPrincipal()
-                .getAttribute("login"), UserType.GITHUB);
+                .getAttribute("login"), UserType.GITHUB, Set.of(new Role(Role.ROLE_USER)));
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
