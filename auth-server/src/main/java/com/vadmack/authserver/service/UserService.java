@@ -7,7 +7,6 @@ import com.vadmack.authserver.domain.entity.User;
 import com.vadmack.authserver.domain.entity.UserType;
 import com.vadmack.authserver.repository.UserRepository;
 import com.vadmack.authserver.util.SequenceGeneratorService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.Set;
 
-@Data
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -28,14 +26,8 @@ public class UserService {
     private final ModelMapper modelMapper = new ModelMapper();
 
     public User createUser(AuthRequest request, UserType userType) {
-        User user = new User(
-                sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
-                request.getUsername(),
-                securityConfig.passwordEncoder().encode(request.getPassword()),
-                Set.of(new Role(Role.ROLE_USER)),
-                true,
-                userType
-        );
+        User user = createUser(request.getUsername(), userType);
+        user.setPassword(securityConfig.passwordEncoder().encode(request.getPassword()));
         return userRepository.insert(user);
     }
 
@@ -51,16 +43,17 @@ public class UserService {
     }
 
     public User checkIfExistsOrCreate(AuthRequest request, UserType userType) {
-        Optional<User> optionalUser = userRepository.findFirstByUsernameAndUserType(request.getUsername(),
-                userType);
+        Optional<User> optionalUser = findFirstByUsernameAndUserType(request.getUsername(), userType);
         return optionalUser.orElseGet(() -> createUser(request, userType));
     }
 
     public User checkIfExistsOrCreate(String username, UserType userType) {
-        Optional<User> optionalUser = userRepository.findFirstByUsernameAndUserType(username,
-                userType);
+        Optional<User> optionalUser = findFirstByUsernameAndUserType(username, userType);
         return optionalUser.orElseGet(() -> createUser(username, userType));
     }
 
+    private Optional<User> findFirstByUsernameAndUserType(String username, UserType userType) {
+        return userRepository.findFirstByUsernameAndUserType(username, userType);
+    }
 
 }

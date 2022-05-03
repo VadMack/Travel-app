@@ -61,7 +61,6 @@ public class AuthController {
     public ResponseEntity<UserDto> loginWithGithub(OAuth2AuthenticationToken principal) {
         User user = userService.checkIfExistsOrCreate((String) principal.getPrincipal()
                 .getAttribute("login"), UserType.GITHUB);
-        System.out.println(user);
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
