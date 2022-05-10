@@ -1,7 +1,6 @@
 package com.vadmack.authserver.config.security;
 
 
-
 import com.vadmack.authserver.domain.entity.Role;
 import com.vadmack.authserver.domain.entity.User;
 import io.jsonwebtoken.*;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,6 +27,7 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setSubject(String.format("%s,%s", user.getId(), user.getUsername()))
                 .claim("Authorities", authorities)
+                .claim("Enabled", user.isEnabled())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000)) // 24 hours
                 .signWith(SignatureAlgorithm.HS512, secret)

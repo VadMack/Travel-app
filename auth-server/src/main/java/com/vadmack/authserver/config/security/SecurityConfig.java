@@ -45,6 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/api/public/auth").permitAll()
+                .antMatchers("/api/public/registration").permitAll()
+                .antMatchers("/api/public/registration-confirm").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
                 .antMatchers(HttpMethod.POST, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
@@ -73,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
                         "user",
                         passwordEncoder().encode("user"),
+                        null,
                         Set.of(new Role(Role.ROLE_USER)),
                         true,
                         UserType.PASSWORD
@@ -81,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
                         "admin",
                         passwordEncoder().encode("admin"),
+                        null,
                         Set.of(new Role(Role.ROLE_ADMIN)),
                         true,
                         UserType.PASSWORD

@@ -1,10 +1,7 @@
 package com.vadmack.authserver.service;
 
 import com.vadmack.authserver.config.security.SecurityConfig;
-import com.vadmack.authserver.domain.dto.AuthRequest;
-import com.vadmack.authserver.domain.dto.UserDto;
-import com.vadmack.authserver.domain.dto.UserDtoForUpdate;
-import com.vadmack.authserver.domain.dto.UserNoIdDto;
+import com.vadmack.authserver.domain.dto.*;
 import com.vadmack.authserver.domain.entity.Role;
 import com.vadmack.authserver.domain.entity.User;
 import com.vadmack.authserver.domain.entity.UserType;
@@ -95,35 +92,52 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User createUser(AuthRequest request, UserType userType, Set<Role> authorities) {
-        User user = createUser(request.getUsername(), userType, authorities);
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+    public User createUser(RegistrationRequest request, UserType userType, Set<Role> authorities, Boolean enabled) {
+        User user = new User();
+        user.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
+        user.setUsername(request.getUsername());
+        user.setAuthorities(authorities);
+        user.setUserType(userType);
+        user.setEnabled(enabled);
         user.setPassword(securityConfig.passwordEncoder().encode(request.getPassword()));
+        user.setEmail(request.getEmail());
         return userRepository.insert(user);
     }
 
-    public User createUser(String username, UserType userType, Set<Role> authorities) {
+    public User createUser(String username, UserType userType, Set<Role> authorities, Boolean enabled) {
         User user = new User(
                 sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
                 username,
                 authorities,
-                true,
+                enabled,
                 userType
         );
         return userRepository.insert(user);
     }
 
-    public User checkIfExistsOrCreate(AuthRequest request, UserType userType, Set<Role> authorities) {
-        Optional<User> optionalUser = findFirstByUsernameAndUserType(request.getUsername(), userType);
-        return optionalUser.orElseGet(() -> createUser(request, userType, authorities));
+    public User checkDoesNotExistAndCreate(RegistrationRequest request, UserType userType, Set<Role> authorities, Boolean enabled) {
+        Optional<User> optionalUser = findByUsernameAndUserType(request.getUsername(), userType);
+        if (optionalUser.isPresent()) {
+            throw new ValidationException(String.format("User with username=%s already exists", request.getUsername()));
+        }
+        optionalUser = userRepository.findByEmail(request.getEmail());
+        if (optionalUser.isPresent()) {
+            throw new ValidationException(String.format("User with email=%s already exists", request.getEmail()));
+        }
+        return createUser(request, userType, authorities, enabled);
     }
 
-    public User checkIfExistsOrCreate(String username, UserType userType, Set<Role> authorities) {
-        Optional<User> optionalUser = findFirstByUsernameAndUserType(username, userType);
-        return optionalUser.orElseGet(() -> createUser(username, userType, authorities));
+    public User findExistedOrCreate(String username, UserType userType, Set<Role> authorities, Boolean enabled) {
+        Optional<User> optionalUser = findByUsernameAndUserType(username, userType);
+        return optionalUser.orElseGet(() -> createUser(username, userType, authorities, enabled));
     }
 
-    private Optional<User> findFirstByUsernameAndUserType(String username, UserType userType) {
-        return userRepository.findFirstByUsernameAndUserType(username, userType);
+    private Optional<User> findByUsernameAndUserType(String username, UserType userType) {
+        return userRepository.findByUsernameAndUserType(username, userType);
     }
 
     public void deleteUser(Long id) {

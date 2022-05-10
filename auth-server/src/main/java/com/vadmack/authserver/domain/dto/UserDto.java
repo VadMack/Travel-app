@@ -10,6 +10,8 @@ import java.util.Set;
 public class UserDto {
     private String id;
     private String username;
+    private String email;
     private Set<Role> authorities;
     private UserType userType;
+    private Boolean enabled;
 }

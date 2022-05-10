@@ -2,14 +2,14 @@ package com.vadmack.authserver.domain.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Data
 public class AuthRequest {
 
-    @NotNull
+    @NotBlank(message = "The property 'username' is not defined")
     private String username;
-    @NotNull
+    @NotBlank(message = "The property 'password' is not defined")
     private String password;
 
 }

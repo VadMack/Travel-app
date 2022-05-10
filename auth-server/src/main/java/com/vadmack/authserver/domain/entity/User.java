@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,6 +23,8 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    @Indexed
+    private String email;
     private Set<Role> authorities;
     private boolean enabled = true;
     private UserType userType;

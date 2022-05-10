@@ -16,21 +16,23 @@ spring:
         registration:
           github:
             clientId: efbaf1924aa2b3c0df98
-            clientSecret: ${GITHUB_APPLICATION_SECRET}
+            clientSecret: # github client secret
   mail:
     protocol: smtp
 
+    # Choose one of the following configs or add another
+
     # Gmail config
-#    host: smtp.gmail.com
-#    port: 465
-#    username: ${GMAIL_EMAIL}
-#    password: ${GMAIL_PASSWORD}
+    #    host: smtp.gmail.com
+    #    port: 465
+    #    username: ${GMAIL_EMAIL}
+    #    password: ${GMAIL_PASSWORD}
 
     # Yandex config
     host: smtp.yandex.ru
     port: 587
-    username: ${YANDEX_EMAIL}
-    password: ${YANDEX_PASSWORD}
+    username: # yandex email
+    password: # password
 
     properties:
       "mail.transport.protocol": smtp
