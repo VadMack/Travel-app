@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/public/auth").permitAll()
                 .antMatchers("/api/public/registration").permitAll()
                 .antMatchers("/api/public/registration-confirm").permitAll()
+                .antMatchers("/api/public/reset-password").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
                 .antMatchers(HttpMethod.POST, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)

@@ -1,25 +1,10 @@
 package com.vadmack.authserver.config.security;
 
 import com.vadmack.authserver.domain.entity.User;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.context.ApplicationEvent;
 
-import java.util.Locale;
+public class OnRegistrationCompleteEvent extends AbstractCustomEvent {
 
-@Getter
-@Setter
-public class OnRegistrationCompleteEvent extends ApplicationEvent {
-    private String appUrl;
-    private Locale locale;
-    private User user;
-
-    public OnRegistrationCompleteEvent(
-            User user, Locale locale, String appUrl) {
-        super(user);
-
-        this.user = user;
-        this.locale = locale;
-        this.appUrl = appUrl;
+    public OnRegistrationCompleteEvent(User user, String appUrl) {
+        super(user, appUrl);
     }
 }

@@ -1,21 +1,20 @@
 package com.vadmack.authserver.controller;
 
 import com.vadmack.authserver.config.security.JwtTokenUtil;
+import com.vadmack.authserver.config.security.OnPasswordResetEvent;
 import com.vadmack.authserver.config.security.OnRegistrationCompleteEvent;
-import com.vadmack.authserver.domain.dto.AuthRequest;
-import com.vadmack.authserver.domain.dto.RegistrationRequest;
-import com.vadmack.authserver.domain.dto.UserDto;
+import com.vadmack.authserver.domain.dto.*;
 import com.vadmack.authserver.domain.entity.Role;
 import com.vadmack.authserver.domain.entity.User;
 import com.vadmack.authserver.domain.entity.UserType;
 import com.vadmack.authserver.domain.entity.VerificationToken;
-import com.vadmack.authserver.exception.ValidationException;
 import com.vadmack.authserver.service.UserService;
 import com.vadmack.authserver.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,8 +23,6 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.Set;
 
 @RestController
@@ -44,12 +41,10 @@ public class AuthController {
     public ResponseEntity<UserDto> registerUserAccount(
             @Valid @RequestBody RegistrationRequest request) {
 
-
         User user = userService.checkDoesNotExistAndCreate(request,
                 UserType.PASSWORD, Set.of(new Role(Role.ROLE_USER)), false);
 
-        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user,
-                Locale.ENGLISH, request.getAppUrl()));
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, request.getAppUrl()));
 
         return ResponseEntity.ok()
                 .header(
@@ -63,13 +58,8 @@ public class AuthController {
     @GetMapping("/registration-confirm")
     public ResponseEntity<UserDto> confirmRegistration(@RequestParam String token) {
 
-        VerificationToken verificationToken = verificationTokenService.findVerificationToken(token);
-
+        VerificationToken verificationToken = verificationTokenService.validateToken(token);
         User user = verificationToken.getUser();
-        Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            throw new ValidationException("Token has expired");
-        }
         user.setEnabled(true);
         userService.saveUser(user);
         return ResponseEntity.ok()
@@ -107,6 +97,22 @@ public class AuthController {
                         jwtTokenUtil.generateAccessToken(user)
                 )
                 .body(modelMapper.map(user, UserDto.class));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        User user = userService.getByEmail(request.getEmail());
+        eventPublisher.publishEvent(new OnPasswordResetEvent(user, request.getAppUrl()));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestParam String token,
+                                           @RequestBody String password) {
+        VerificationToken verificationToken = verificationTokenService.validateToken(token);
+        User user = verificationToken.getUser();
+        userService.updateUser(user.getId(),  new UserDtoForUpdate(user.getUsername(), password));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // fixme: endpoint for test

@@ -1,7 +1,10 @@
 package com.vadmack.authserver.service;
 
 import com.vadmack.authserver.config.security.SecurityConfig;
-import com.vadmack.authserver.domain.dto.*;
+import com.vadmack.authserver.domain.dto.RegistrationRequest;
+import com.vadmack.authserver.domain.dto.UserDto;
+import com.vadmack.authserver.domain.dto.UserDtoForUpdate;
+import com.vadmack.authserver.domain.dto.UserNoIdDto;
 import com.vadmack.authserver.domain.entity.Role;
 import com.vadmack.authserver.domain.entity.User;
 import com.vadmack.authserver.domain.entity.UserType;
@@ -14,21 +17,25 @@ import com.vadmack.authserver.util.SortService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import static java.lang.String.format;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
+    private final ApplicationEventPublisher eventPublisher;
     private final UserRepository userRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
     private final PasswordEncoder passwordEncoder;
@@ -79,16 +86,20 @@ public class UserService {
         return entityToDto(getById(id));
     }
 
-    public void updateUser(Long id, UserDtoForUpdate userDto) {
+    public void updateUser(Long id, @Valid UserDtoForUpdate userDto) {
+        User user = getById(id);
+
+        String username = userDto.getUsername();
         Optional<User> existedUser = userRepository.findByUsername(userDto.getUsername());
-        if (existedUser.isPresent()) {
-            throw new ValidationException(format("User with username '%s' already exists", userDto.getUsername()));
+        if (existedUser.isPresent() && !existedUser.get().getId().equals(id)) {
+            throw new ValidationException(format("User with username '%s' already exists", username));
+        } else {
+            user.setUsername(username);
         }
 
-        User user = dtoToEntity(userDto);
-        user.setId(id);
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setUserType(UserType.PASSWORD);
+        String password = user.getPassword();
+        user.setPassword(passwordEncoder.encode(password));
+
         userRepository.save(user);
     }
 
@@ -148,6 +159,11 @@ public class UserService {
     private User getById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(String.format("User with id=%d not found", id)));
+    }
+
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(String.format("User with email=%d not found", email)));
     }
 
     private UserDto entityToDto(User user) {

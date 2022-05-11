@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
-
+public class PasswordResetListener implements ApplicationListener<OnPasswordResetEvent> {
     private final EmailUtil emailUtil;
 
     @Override
-    public void onApplicationEvent(@NotNull OnRegistrationCompleteEvent event) {
-        emailUtil.sendLink(event, "/registrationConfirm", "Registration Confirmation", TokenType.PASSWORD_RESET);
+    public void onApplicationEvent(@NotNull OnPasswordResetEvent event) {
+        emailUtil.sendLink(event, "/passwordReset", "Password Reset", TokenType.PASSWORD_RESET);
     }
+
 }
