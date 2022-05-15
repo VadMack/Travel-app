@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -22,7 +23,7 @@ import java.util.Objects;
 @TypeAlias("point")
 public class Point {
     @Id
-    private Long id;
+    private UUID id;
 
     private String name;
     @DBRef
