@@ -13,3 +13,7 @@ target
 
 ### Test Config ###
 src/main/resources/application-test.yml
+
+### Local profiles ###
+*-local.yml
+*-local.properties

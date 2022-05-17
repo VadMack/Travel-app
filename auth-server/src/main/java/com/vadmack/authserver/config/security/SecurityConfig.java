@@ -8,6 +8,7 @@ import com.vadmack.authserver.util.SequenceGeneratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -44,6 +45,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/api/public/auth").permitAll()
+                .antMatchers("/api/public/registration").permitAll()
+                .antMatchers("/api/public/registration-confirm").permitAll()
+                .antMatchers("/api/public/reset-password").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
+                .antMatchers(HttpMethod.POST, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
+                .antMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
+                .antMatchers(HttpMethod.PUT, "/api/users/**")
+                .hasAnyAuthority(Role.ROLE_ADMIN, Role.ROLE_USER)
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login();
@@ -67,6 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
                         "user",
                         passwordEncoder().encode("user"),
+                        null,
                         Set.of(new Role(Role.ROLE_USER)),
                         true,
                         UserType.PASSWORD
@@ -75,6 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
                         "admin",
                         passwordEncoder().encode("admin"),
+                        null,
                         Set.of(new Role(Role.ROLE_ADMIN)),
                         true,
                         UserType.PASSWORD
