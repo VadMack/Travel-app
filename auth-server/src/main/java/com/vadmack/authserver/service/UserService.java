@@ -163,7 +163,7 @@ public class UserService {
 
     public User getByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException(String.format("User with email=%d not found", email)));
+                .orElseThrow(() -> new NotFoundException(String.format("User with email=%s not found", email)));
     }
 
     private UserDto entityToDto(User user) {
