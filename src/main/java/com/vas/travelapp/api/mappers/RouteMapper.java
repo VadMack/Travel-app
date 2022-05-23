@@ -1,30 +1,29 @@
 package com.vas.travelapp.api.mappers;
 
 import com.vas.travelapp.api.dtos.RouteDto;
-import com.vas.travelapp.domain.route.Route;
+import com.vas.travelapp.domain.point.Point;
+import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Component
 public class RouteMapper {
-    // todo: implement
-    public RouteDto toDto(Route route) {
-        if (route == null) {
+    public RouteDto toRoute(Point point) {
+        if (point == null) {
             return null;
         }
 
         RouteDto routeDto = new RouteDto();
-        routeDto.setId(route.getId());
+        routeDto.setId(point.getId());
+        routeDto.setName(point.getName());
+        routeDto.setType(point.getType());
+        routeDto.setPrice(point.getPrice());
+        routeDto.setAddress(point.getAddress().toString());
         return routeDto;
     }
 
-    public List<RouteDto> toDto(List<Route> routes) {
-        if (routes == null) {
-            return null;
-        }
-
-        return routes.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public List<RouteDto> toRoute(Collection<Point> point) {
+        return point.stream().map(this::toRoute).toList();
     }
 }

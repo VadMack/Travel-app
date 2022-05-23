@@ -3,7 +3,6 @@ package com.vas.travelapp.config.security;
 import com.vas.travelapp.domain.user.Role;
 import com.vas.travelapp.domain.user.User;
 import com.vas.travelapp.domain.user.UserRepository;
-import com.vas.travelapp.utils.mongo.SequenceGeneratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenFilter jwtTokenFilter;
     private final UserRepository userRepository;
-    private final SequenceGeneratorService sequenceGeneratorService;
 
     @Override
     @SuppressWarnings({"java:S1117", "java:S5344"})
@@ -48,14 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         builder.userDetailsService(username -> {
             if (userRepository.findAll().isEmpty()) {
                 User user = new User(
-                        sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
                         this.user,
                         passwordEncoder().encode(this.user),
                         Set.of(new Role(Role.ROLE_USER)),
                         true
                 );
                 User admin = new User(
-                        sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME),
                         this.admin,
                         passwordEncoder().encode(this.admin),
                         Set.of(new Role(Role.ROLE_ADMIN)),

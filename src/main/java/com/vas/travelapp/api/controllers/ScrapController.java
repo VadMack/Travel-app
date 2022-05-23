@@ -1,8 +1,8 @@
 package com.vas.travelapp.api.controllers;
 
-import com.vas.travelapp.api.dtos.ScrapDto;
-import com.vas.travelapp.api.mappers.ScrapMapper;
-import com.vas.travelapp.domain.scrap.ScrapService;
+import com.vas.travelapp.api.dtos.PointDto;
+import com.vas.travelapp.api.mappers.PointMapper;
+import com.vas.travelapp.domain.point.PointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ScrapController {
 
-    private final ScrapService service;
-    private final ScrapMapper mapper;
+    private final PointService service;
+    private final PointMapper mapper;
 
     @PostMapping("/")
-    public void route(ScrapDto scrapDto) {
-        service.saveOrUpdate(mapper.toScrap(scrapDto));
+    public void route(PointDto scrapDto) {
+        service.save(mapper.toPoint(scrapDto));
+    }
+
+    @PostMapping("/new")
+    public void route() {
+        service.save(mapper.toPoint(new PointDto("name", "description", "url", "imageUrl")));
     }
 }

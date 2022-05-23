@@ -1,30 +1,34 @@
 package com.vas.travelapp.domain.point;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Document("opHours")
-@TypeAlias("opHour")
+@Entity(name = "operation_hours")
+@Table(name = "operation_hours")
 public class OperationHours {
     @Id
+    @GeneratedValue
     private Long id;
-
     private DayOfWeek dayOfWeek;
     private LocalTime openingTime;
     private LocalTime closeTime;
+    private boolean closed;
+    @ManyToOne
+    @JoinColumn(name = "point_id")
+    private Point point;
 
     @Override
     public boolean equals(Object o) {

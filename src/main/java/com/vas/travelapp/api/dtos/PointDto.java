@@ -1,15 +1,16 @@
-package com.vas.travelapp.domain.route;
+package com.vas.travelapp.api.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-// todo: implement
 @Getter
 @Setter
 @AllArgsConstructor
-public class Route {
-    private Long id;
+public class PointDto {
     private String name;
-    private String description;
+    private String address;
+    private String phone;
+    private String link;
+
 }

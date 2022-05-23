@@ -1,17 +1,10 @@
 package com.vas.travelapp.domain.route;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.vas.travelapp.domain.point.Point;
 
 import java.util.List;
+import java.util.Set;
 
-@Service
-@RequiredArgsConstructor
-public class RouteService {
-
-    private final RouteRepository routeRepository;
-
-    public List<Route> getRoute() {
-        return routeRepository.findRoute();
-    }
+public interface RouteService {
+    List<Point> getRoute(Preferences preferences, Set<Integer> types);
 }
