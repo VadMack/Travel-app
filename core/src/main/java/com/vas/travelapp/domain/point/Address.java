@@ -7,6 +7,7 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,7 +19,7 @@ import java.util.Objects;
 @TypeAlias("address")
 public class Address {
     @Id
-    private Long id;
+    private UUID id;
 
     private String streetNumber;
     private String streetName;
