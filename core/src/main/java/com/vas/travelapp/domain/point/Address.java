@@ -2,12 +2,11 @@ package com.vas.travelapp.domain.point;
 
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,17 +14,17 @@ import java.util.UUID;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Document("addresses")
-@TypeAlias("address")
+@Entity(name = "addresses")
 public class Address {
     @Id
-    private UUID id;
+    @GeneratedValue
+    private Long id;
 
-    private String streetNumber;
-    private String streetName;
-    private String cityName;
-    private String countryName;
-    private String postalCode;
+    private String streetAddress;
+    private String city;
+    private Integer zipCode;
+    private String country;
+
     private Double latitude;
     private Double longitude;
 
@@ -34,17 +33,16 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address that = (Address) o;
-        return Objects.equals(streetNumber, that.streetNumber)
-                && Objects.equals(streetName, that.streetName)
-                && Objects.equals(cityName, that.cityName)
-                && Objects.equals(countryName, that.countryName)
-                && Objects.equals(postalCode, that.postalCode)
+        return Objects.equals(streetAddress, that.streetAddress)
+                && Objects.equals(city, that.city)
+                && Objects.equals(country, that.country)
+                && Objects.equals(zipCode, that.zipCode)
                 && Objects.equals(latitude, that.latitude)
                 && Objects.equals(longitude, that.longitude);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(streetNumber, streetName, cityName, countryName, postalCode, latitude, longitude);
+        return Objects.hash(streetAddress, city, country, zipCode, latitude, longitude);
     }
 }

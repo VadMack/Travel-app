@@ -1,7 +1,7 @@
-package com.vas.travelapp.domain.scrap;
+package com.vas.travelapp.api.dtos;
 
 import com.vas.travelapp.domain.point.OperationHours;
-import com.vas.travelapp.domain.point.PointType;
+import com.vas.travelapp.domain.point.enums.PointType;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

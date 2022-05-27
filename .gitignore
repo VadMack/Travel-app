@@ -9,7 +9,7 @@ target
 *.iml
 
 ### Docker ###
-!docker/docker-compose.yml
+!docker/mongodbs.yml
 
 ### Test Config ###
 src/main/resources/application-test.yml
