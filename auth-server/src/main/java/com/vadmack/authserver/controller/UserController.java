@@ -52,8 +52,10 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PreAuthorize("@userService.hasPermissionToUpdate(#id, #user.id)")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id,
+                                    @AuthenticationPrincipal User user) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

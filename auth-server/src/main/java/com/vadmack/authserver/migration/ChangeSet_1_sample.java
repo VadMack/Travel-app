@@ -37,7 +37,7 @@ public class ChangeSet_1_sample {
 
     @RollbackExecution
     public void rollback() {
-        Optional<User> oleg = userRepository.findByUsername("Oleg-useless");
+        Optional<User> oleg = userRepository.findByUsername("user");
         oleg.ifPresent(userRepository::delete);
     }
 

@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -53,7 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
                 .antMatchers(HttpMethod.PUT, "/api/users/**")
                 .hasAnyAuthority(Role.ROLE_ADMIN, Role.ROLE_USER)
-                .anyRequest().authenticated()
+                .antMatchers("/api/public/oauth2/github").authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint())
                 .and()
                 .oauth2Login();
 
@@ -65,6 +69,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     authorizationRequestRepository() {
 
         return new HttpSessionOAuth2AuthorizationRequestRepository();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint(){
+        return new CustomAuthenticationEntryPoint();
     }
 
     @Override
