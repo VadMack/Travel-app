@@ -49,6 +49,16 @@ authorization:
   #secret: ${AUTH_SECRET}
 
 
+refresh-token:
+  expiration-in-minutes: 10080 # 60m * 24h * 7d - one week
+
+registration-token:
+  expiration-in-minutes: 1440 # 60m * 24h - one day
+
+password-reset-token:
+  expiration-in-minutes: 1440 # 60m * 24h - one day
+
+
 server:
   port: 0
 

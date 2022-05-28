@@ -13,10 +13,9 @@ import java.util.Date;
 @Data
 @Document("verification_tokens")
 public class VerificationToken {
-    public static final int EXPIRATION = 60 * 24;
 
     @Transient
-    public static final String SEQUENCE_NAME = "user_sequence";
+    public static final String SEQUENCE_NAME = "verification_token_sequence";
 
     @Id
     private Long id;
