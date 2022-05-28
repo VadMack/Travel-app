@@ -59,6 +59,7 @@ public class VerificationTokenService {
         if ((token.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             throw new ValidationException("Token has expired");
         }
+        deleteVerificationToken(token);
         return token;
     }
 
@@ -69,6 +70,10 @@ public class VerificationTokenService {
     private VerificationToken getByValueAndTokenType(String value, TokenType tokenType) {
         return verificationTokenRepository.findByTokenAndTokenType(value, tokenType)
                 .orElseThrow(() -> new NotFoundException(String.format("Token %s not found", value)));
+    }
+
+    public void deleteVerificationToken(VerificationToken verificationToken) {
+        verificationTokenRepository.delete(verificationToken);
     }
 
 }
