@@ -17,7 +17,6 @@ import com.vadmack.authserver.util.SortService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,7 +34,6 @@ import static java.lang.String.format;
 @Service
 public class UserService {
 
-    private final ApplicationEventPublisher eventPublisher;
     private final UserRepository userRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
     private final PasswordEncoder passwordEncoder;
@@ -97,7 +95,7 @@ public class UserService {
             user.setUsername(username);
         }
 
-        String password = user.getPassword();
+        String password = userDto.getPassword();
         user.setPassword(passwordEncoder.encode(password));
 
         userRepository.save(user);
@@ -161,8 +159,8 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException(String.format("User with id=%d not found", id)));
     }
 
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email)
+    public User getByEmailAndUseType(String email, UserType userType) {
+        return userRepository.findByEmailAndUserType(email, userType)
                 .orElseThrow(() -> new NotFoundException(String.format("User with email=%s not found", email)));
     }
 

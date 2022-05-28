@@ -20,4 +20,5 @@ public interface UserRepository extends MongoRepository<User, Long> {
     List<User> findAllByUsernameLikeIgnoreCase(String namePart, Pageable pageable);
 
     Optional<User> findByUsernameAndUserType(String username, UserType userType);
+    Optional<User> findByEmailAndUserType(String email, UserType userType);
 }

@@ -14,4 +14,5 @@ public class UserDto {
     private Set<Role> authorities;
     private UserType userType;
     private Boolean enabled;
+    private String refreshToken;
 }
