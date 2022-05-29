@@ -30,5 +30,4 @@ public class RouteController {
     public void generateRoute() {
         service.generateData();
     }
-
 }

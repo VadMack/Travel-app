@@ -42,11 +42,7 @@ spring:
 app-version: "1.0"
 
 authorization:
-  # temporary solution
-  secret: temporarySecret
-
-  # right solution
-  #secret: ${AUTH_SECRET}
+  secret: ${AUTH_SECRET}
 
 
 refresh-token:
