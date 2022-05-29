@@ -1,7 +1,11 @@
 app-version: "1.0"
+
 authorization:
-  secret: "TGNqaCtOUzVNZFdSerSXhZelEyTFRJelMVJrRmAbobaME5wUlZaRWN0ZUhsehMUT09"
+  secret: temporarySecret
+
 spring:
+  application:
+    name: core
   datasource:
     name: PostgresConnection
     driver-class-name: org.postgresql.Driver
@@ -19,3 +23,11 @@ spring:
         format_sql: false
         ddl-auto: create-drop
     generate-ddl: true
+
+server:
+  port: 0
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
