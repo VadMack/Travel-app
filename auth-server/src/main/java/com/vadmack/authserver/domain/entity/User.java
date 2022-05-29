@@ -26,7 +26,7 @@ public class User implements UserDetails {
     @Indexed
     private String email;
     private Set<Role> authorities;
-    private boolean enabled = true;
+    private boolean enabled;
     private UserType userType;
 
     @Override
