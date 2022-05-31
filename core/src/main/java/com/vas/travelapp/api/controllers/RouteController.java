@@ -26,9 +26,9 @@ public class RouteController {
                         preferencesMapper.toPreference(preferencesDto)));
     }
 
-    @PostMapping
+    /*@PostMapping
     public void generateRoute() {
         service.generateData();
-    }
+    }*/
 
 }

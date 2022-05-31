@@ -22,6 +22,6 @@ public class ScrapController {
 
     @PostMapping("/add")
     public Point createOrUpdate(@RequestBody @Valid ScrapDto dto) {
-        return pointService.save(scrapMapper.scrapDtoToPoint(dto));
+        return pointService.save(scrapMapper.scrapDtoToPoint(dto.getResult()));
     }
 }
