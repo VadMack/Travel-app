@@ -5,7 +5,8 @@ spring:
   datasource:
     name: PostgresConnection
     driver-class-name: org.postgresql.Driver
-    username: galex
+    username: toor
+    password: postgres
     url: jdbc:postgresql://localhost:5433/
   jpa:
     open-in-view: false
