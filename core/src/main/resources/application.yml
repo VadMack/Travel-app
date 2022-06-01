@@ -29,7 +29,7 @@ poi-poller:
   enabled: true
   cron: "0 */5 * * * *"
   placesApiUrl: "https://maps.googleapis.com/maps/api/place"
-  placesKey: "AIzaSyDjdzrAAagAOpb7ekzXaDniBUn8JgYynnA"
+  placesKey: ${GOOGLE_PLACES_KEY}
   
 server:
   port: 0
