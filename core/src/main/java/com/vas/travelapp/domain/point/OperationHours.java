@@ -18,11 +18,15 @@ import java.util.UUID;
 @Table(name = "operation_hours", schema = "travelapp")
 public class OperationHours {
     @Id
+    @GeneratedValue(strategy = AUTO)
     private Long id;
     private DayOfWeek dayOfWeek;
     private LocalTime openingTime;
     private LocalTime closeTime;
     private boolean closed;
+    @ManyToOne
+    @JoinColumn(name = "point_id")
+    private Point point;
 
 
     @Override
