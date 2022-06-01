@@ -32,7 +32,6 @@ public class ScrapMapper {
         }
 
         var point = new Point();
-        point.setId((long) (Math.random() * 2 * Long.MAX_VALUE - Long.MAX_VALUE));
 
         point.setName(dto.getName());
 
@@ -114,14 +113,14 @@ public class ScrapMapper {
             return list;
         }
         toMap.getPeriods().forEach(period -> {
-            if (period.getOpen() != null && period.getClose() != null)
-                list.add(new OperationHours(
-                        (long) (Math.random() * 2 * Long.MAX_VALUE - Long.MAX_VALUE),
-                        DayOfWeek.of(period.getOpen().getDay() + 1),
-                        LocalTime.parse(period.getOpen().getTime(), DateTimeFormatter.ofPattern("HHmm")),
-                        LocalTime.parse(period.getClose().getTime(), DateTimeFormatter.ofPattern("HHmm")),
-                        false
-                ));
+            if (period.getOpen() != null && period.getClose() != null) {
+                var opHours = new OperationHours();
+                opHours.setDayOfWeek(DayOfWeek.of(period.getOpen().getDay() + 1));
+                opHours.setOpeningTime(LocalTime.parse(period.getOpen().getTime(), DateTimeFormatter.ofPattern("HHmm")));
+                opHours.setCloseTime(LocalTime.parse(period.getClose().getTime(), DateTimeFormatter.ofPattern("HHmm")));
+                opHours.setClosed(false);
+                list.add(opHours);
+            }
         });
         return list;
     }
