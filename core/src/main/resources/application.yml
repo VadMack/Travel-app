@@ -1,7 +1,11 @@
 app-version: "1.0"
+
 authorization:
-  secret: "TGNqaCtOUzVNZFdSerSXhZelEyTFRJelMVJrRmAbobaME5wUlZaRWN0ZUhsehMUT09"
+  secret: temporarySecret
+
 spring:
+  application:
+    name: core
   datasource:
     name: PostgresConnection
     driver-class-name: org.postgresql.Driver
@@ -20,8 +24,17 @@ spring:
         ddl-auto: create-drop
     generate-ddl: true
 
+
 poi-poller:
   enabled: true
   cron: "0 */5 * * * *"
   placesApiUrl: "https://maps.googleapis.com/maps/api/place"
   placesKey: "AIzaSyDjdzrAAagAOpb7ekzXaDniBUn8JgYynnA"
+  
+server:
+  port: 0
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka

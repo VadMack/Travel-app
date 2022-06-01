@@ -4,10 +4,7 @@ import com.vadmack.authserver.config.security.JwtTokenUtil;
 import com.vadmack.authserver.config.security.OnPasswordResetEvent;
 import com.vadmack.authserver.config.security.OnRegistrationCompleteEvent;
 import com.vadmack.authserver.domain.dto.*;
-import com.vadmack.authserver.domain.entity.Role;
-import com.vadmack.authserver.domain.entity.User;
-import com.vadmack.authserver.domain.entity.UserType;
-import com.vadmack.authserver.domain.entity.VerificationToken;
+import com.vadmack.authserver.domain.entity.*;
 import com.vadmack.authserver.service.UserService;
 import com.vadmack.authserver.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/public")
@@ -58,7 +56,7 @@ public class AuthController {
     @GetMapping("/registration-confirm")
     public ResponseEntity<UserDto> confirmRegistration(@RequestParam String token) {
 
-        VerificationToken verificationToken = verificationTokenService.validateToken(token);
+        VerificationToken verificationToken = verificationTokenService.validateToken(token, TokenType.REGISTRATION);
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.saveUser(user);
@@ -79,12 +77,37 @@ public class AuthController {
                         )
                 );
         User user = (User) authenticate.getPrincipal();
+        String refreshToken = UUID.randomUUID().toString();
+        verificationTokenService.createVerificationToken(user, refreshToken, TokenType.REFRESH);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        userDto.setRefreshToken(refreshToken);
+
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
                         jwtTokenUtil.generateAccessToken(user)
                 )
-                .body(modelMapper.map(user, UserDto.class));
+                .body(userDto);
+    }
+
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<UserDto> refreshToken(@RequestBody @Valid RefreshTokenRequest request) {
+        String token = request.getToken();
+        VerificationToken verificationToken = verificationTokenService.validateToken(token, TokenType.REFRESH);
+        User user = verificationToken.getUser();
+
+        String refreshToken = UUID.randomUUID().toString();
+        verificationTokenService.createVerificationToken(user, refreshToken, TokenType.REFRESH);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        userDto.setRefreshToken(refreshToken);
+
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.AUTHORIZATION,
+                        jwtTokenUtil.generateAccessToken(user)
+                )
+                .body(userDto);
     }
 
     @GetMapping("/oauth2/github")
@@ -101,17 +124,17 @@ public class AuthController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
-        User user = userService.getByEmail(request.getEmail());
+        User user = userService.getByEmailAndUseType(request.getEmail(), UserType.PASSWORD);
         eventPublisher.publishEvent(new OnPasswordResetEvent(user, request.getAppUrl()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestParam String token,
-                                           @RequestBody String password) {
-        VerificationToken verificationToken = verificationTokenService.validateToken(token);
+                                           @RequestBody ResetPasswordStage2Request request) {
+        VerificationToken verificationToken = verificationTokenService.validateToken(token, TokenType.PASSWORD_RESET);
         User user = verificationToken.getUser();
-        userService.updateUser(user.getId(),  new UserDtoForUpdate(user.getUsername(), password));
+        userService.updateUser(user.getId(),  new UserDtoForUpdate(user.getUsername(), request.getPassword()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
