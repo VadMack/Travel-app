@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
@@ -17,13 +17,13 @@ public class ScrapDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ScrapDtoDetails{
-        @NotNull(message = "Name field is mandatory")
+        @NotBlank(message = "Name field is mandatory")
         private String name;
 
         @NotNull(message = "Operation hours is mandatory")
         private OpeningHours opening_hours;
 
-        @NotNull(message = "Address_components is mandatory")
+        @NotEmpty(message = "Address_components is mandatory")
         private List<AddressComponent> address_components;
 
         @NotNull(message = "Geometry os mandatory")
