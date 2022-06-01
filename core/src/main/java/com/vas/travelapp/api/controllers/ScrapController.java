@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/api/public")
+@RequestMapping(path = "/api/point")
 @RequiredArgsConstructor
 public class ScrapController {
 
     private final PointService pointService;
     private final ScrapMapper scrapMapper;
 
-    @PostMapping("/add")
-    public Point createOrUpdate(@RequestBody @Valid ScrapDto dto) {
+    @PostMapping
+    public Point createOrUpdate(@RequestBody @Valid ScrapDto.ScrapDtoDetails dto) {
         return pointService.save(scrapMapper.scrapDtoToPoint(dto));
     }
 }

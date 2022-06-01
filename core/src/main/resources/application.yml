@@ -9,8 +9,8 @@ spring:
   datasource:
     name: PostgresConnection
     driver-class-name: org.postgresql.Driver
-    password: toor
-    username: postgres
+    username: toor
+    password: postgres
     url: jdbc:postgresql://localhost:5433/
   jpa:
     open-in-view: false
@@ -24,6 +24,13 @@ spring:
         ddl-auto: create-drop
     generate-ddl: true
 
+
+poi-poller:
+  enabled: true
+  cron: "0 */5 * * * *"
+  placesApiUrl: "https://maps.googleapis.com/maps/api/place"
+  placesKey: ${GOOGLE_PLACES_KEY}
+  
 server:
   port: 0
 

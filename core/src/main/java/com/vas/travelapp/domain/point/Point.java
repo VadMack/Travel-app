@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,19 +19,20 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "point")
-@Table(name = "points")
+@Table(name = "points", schema = "travelapp")
 public class Point {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = AUTO)
     private Long id;
     private String name;
+    @Column(columnDefinition = "varchar(1024)")
     private String additionalInfo;
     private PointType type;
     private Price price;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "address_id")
     private Address address;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name = "operation_hours_id")
     private List<OperationHours> operationHours;
 

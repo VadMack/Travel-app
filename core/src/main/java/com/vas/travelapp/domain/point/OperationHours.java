@@ -1,15 +1,13 @@
 package com.vas.travelapp.domain.point;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,10 +15,10 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "operation_hours")
-@Table(name = "operation_hours")
+@Table(name = "operation_hours", schema = "travelapp")
 public class OperationHours {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = AUTO)
     private Long id;
     private DayOfWeek dayOfWeek;
     private LocalTime openingTime;
@@ -29,6 +27,7 @@ public class OperationHours {
     @ManyToOne
     @JoinColumn(name = "point_id")
     private Point point;
+
 
     @Override
     public boolean equals(Object o) {

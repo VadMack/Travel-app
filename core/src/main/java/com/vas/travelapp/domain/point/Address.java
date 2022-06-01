@@ -3,9 +3,7 @@ package com.vas.travelapp.domain.point;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Getter
@@ -14,15 +12,16 @@ import java.util.Objects;
 @Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity(name = "addresses")
+@Table(name = "addresses", schema = "travelapp")
 public class Address {
     @Id
-    @GeneratedValue
     private Long id;
 
     private String streetAddress;
     private String city;
-    private Integer zipCode;
+    private String zipCode;
     private String country;
 
     private Double latitude;
