@@ -22,6 +22,7 @@ import java.util.UUID;
 @Table(name = "points", schema = "travelapp")
 public class Point {
     @Id
+    @GeneratedValue(strategy = AUTO)
     private Long id;
     private String name;
     @Column(columnDefinition = "varchar(1024)")
