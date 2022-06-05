@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the "dev" branch
   push:
-    branches: [ "dev" ]
+    branches: [ "sisd" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -48,28 +48,28 @@ jobs:
         name: Build and push eureka
         uses: docker/build-push-action@v3
         with:
-          context: /eureka-server
+          context: eureka-server
           push: true
           tags: galex/travelapperapp-eureka:latest
       -
         name: Build and push core
         uses: docker/build-push-action@v3
         with:
-          context: /core
+          context: core
           push: true
           tags: galex/travelapperapp-core:latest
       -
         name: Build and push auth
         uses: docker/build-push-action@v3
         with:
-          context: /auth-server
+          context: auth-server
           push: true
           tags: galex/travelapperapp-auth:latest
       -
         name: Build and push gateway
         uses: docker/build-push-action@v3
         with:
-          context: /api-gateway
+          context: api-gateway
           push: true
           tags: galex/travelapperapp-gateway:latest
           
