@@ -14,7 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 
 @Entity(name = "addresses")
-@Table(name = "addresses", schema = "travelapp")
+@Table(name = "addresses", schema = "public")
 public class Address {
     @Id
     private Long id;
