@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "operation_hours")
-@Table(name = "operation_hours", schema = "travelapp")
+@Table(name = "operation_hours", schema = "public")
 public class OperationHours {
     @Id
     @GeneratedValue(strategy = AUTO)
