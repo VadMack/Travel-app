@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/api/point")
+@RequestMapping(path = "/api/private/collects")
 @RequiredArgsConstructor
 public class ScrapController {
 

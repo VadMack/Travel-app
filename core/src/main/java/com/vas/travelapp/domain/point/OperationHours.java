@@ -18,7 +18,7 @@ import java.util.UUID;
 @Table(name = "operation_hours", schema = "travelapp")
 public class OperationHours {
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private DayOfWeek dayOfWeek;
     private LocalTime openingTime;

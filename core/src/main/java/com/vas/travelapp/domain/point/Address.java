@@ -20,8 +20,11 @@ public class Address {
     private Long id;
 
     private String streetAddress;
+    @Column(length = 192)
     private String city;
+    @Column(length = 10)
     private String zipCode;
+    @Column(length = 96)
     private String country;
 
     private Double latitude;

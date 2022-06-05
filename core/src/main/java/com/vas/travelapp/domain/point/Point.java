@@ -22,10 +22,11 @@ import java.util.UUID;
 @Table(name = "points", schema = "travelapp")
 public class Point {
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(length = 255)
     private String name;
-    @Column(columnDefinition = "varchar(1024)")
+    @Column(length = 1024)
     private String additionalInfo;
     private PointType type;
     private Price price;
