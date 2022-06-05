@@ -50,28 +50,28 @@ jobs:
         with:
           context: eureka-server
           push: true
-          tags: galex/travelapperapp-eureka:latest
+          tags: galex313/travelapperapp-eureka:latest
       -
         name: Build and push core
         uses: docker/build-push-action@v3
         with:
           context: core
           push: true
-          tags: galex/travelapperapp-core:latest
+          tags: galex313/travelapperapp-core:latest
       -
         name: Build and push auth
         uses: docker/build-push-action@v3
         with:
           context: auth-server
           push: true
-          tags: galex/travelapperapp-auth:latest
+          tags: galex313/travelapperapp-auth:latest
       -
         name: Build and push gateway
         uses: docker/build-push-action@v3
         with:
           context: api-gateway
           push: true
-          tags: galex/travelapperapp-gateway:latest
+          tags: galex313/travelapperapp-gateway:latest
           
           
   deploy:
