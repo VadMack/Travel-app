@@ -11,7 +11,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: toor
     password: postgres
-    url: jdbc:postgresql://localhost:5433/
+    url: jdbc:postgresql://${postgres}:5433/
   jpa:
     open-in-view: false
     show-sql: false
@@ -37,4 +37,4 @@ server:
 eureka:
   client:
     service-url:
-      default-zone: http://localhost:8761/eureka
+      default-zone: http://${eureka}:8761/eureka
