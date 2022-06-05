@@ -1,0 +1,92 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "dev" branch
+  push:
+    branches: [ "dev" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build_and_push:
+    environment: CI/CD
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - 
+        name: setup java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push eureka
+        uses: docker/build-push-action@v3
+        with:
+          context: /eureka-server
+          push: true
+          tags: galex/travelapperapp-eureka:latest
+      -
+        name: Build and push core
+        uses: docker/build-push-action@v3
+        with:
+          context: /core
+          push: true
+          tags: galex/travelapperapp-core:latest
+      -
+        name: Build and push auth
+        uses: docker/build-push-action@v3
+        with:
+          context: /auth-server
+          push: true
+          tags: galex/travelapperapp-auth:latest
+      -
+        name: Build and push gateway
+        uses: docker/build-push-action@v3
+        with:
+          context: /api-gateway
+          push: true
+          tags: galex/travelapperapp-gateway:latest
+          
+          
+  deploy:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+    environment: CI/CD
+    steps:
+      -
+        name: a
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            sudo docker-compose -f docker-compose.yml -p travelapper pull
+            sudo docker-compose -f docker-compose.yml -p travelapper up -d

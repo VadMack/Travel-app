@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static javax.persistence.GenerationType.AUTO;
+
 @Getter
 @Setter
 @Accessors(chain = true)
