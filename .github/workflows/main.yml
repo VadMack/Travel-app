@@ -15,7 +15,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build_and_push:
-    environment: CI/DC
+    environment: CI/CD
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -48,28 +48,28 @@ jobs:
         name: Build and push eureka
         uses: docker/build-push-action@v3
         with:
-          context: ../../eureka-server
+          context: /eureka-server
           push: true
           tags: galex/travelapperapp-eureka:latest
       -
         name: Build and push core
         uses: docker/build-push-action@v3
         with:
-          context: ../../core
+          context: /core
           push: true
           tags: galex/travelapperapp-core:latest
       -
         name: Build and push auth
         uses: docker/build-push-action@v3
         with:
-          context: ../../auth-server
+          context: /auth-server
           push: true
           tags: galex/travelapperapp-auth:latest
       -
         name: Build and push gateway
         uses: docker/build-push-action@v3
         with:
-          context: ../../api-gateway
+          context: /api-gateway
           push: true
           tags: galex/travelapperapp-gateway:latest
           
@@ -77,7 +77,7 @@ jobs:
   deploy:
     needs: build_and_push
     runs-on: ubuntu-latest
-    environment: CI/DC
+    environment: CI/CD
     steps:
       -
         name: a
