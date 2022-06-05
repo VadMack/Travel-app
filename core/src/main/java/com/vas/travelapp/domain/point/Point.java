@@ -21,7 +21,7 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "point")
-@Table(name = "points", schema = "travelapp")
+@Table(name = "points", schema = "public")
 public class Point {
     @Id
     @GeneratedValue(strategy = AUTO)
