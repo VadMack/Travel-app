@@ -11,7 +11,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: toor
     password: postgres
-    url: jdbc:postgresql://${postgres}:5433/
+    url: jdbc:postgresql://${postgres}:5432/
   jpa:
     open-in-view: false
     show-sql: false
