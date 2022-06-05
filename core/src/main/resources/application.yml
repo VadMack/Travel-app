@@ -27,7 +27,7 @@ spring:
 
 poi-poller:
   enabled: true
-  cron: "0 */5 * * * *"
+  cron: "0 0 */2 * * *"
   placesApiUrl: "https://maps.googleapis.com/maps/api/place"
   placesKey: ${GOOGLE_PLACES_KEY}
   
