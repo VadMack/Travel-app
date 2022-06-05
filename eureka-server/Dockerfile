@@ -1,6 +1,6 @@
 FROM openjdk:18-jdk-alpine
 ADD ../.. /src
-WORKDIR /src
+WORKDIR .
 RUN ls -l
 RUN ./mvnw package -DskipTests
 EXPOSE 8761
