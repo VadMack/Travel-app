@@ -15,6 +15,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build_and_push:
+    environment: CI/CD
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -74,7 +75,9 @@ jobs:
           
           
   deploy:
+    needs: build_and_push
     runs-on: ubuntu-latest
+    environment: CI/CD
     steps:
       -
         name: a
