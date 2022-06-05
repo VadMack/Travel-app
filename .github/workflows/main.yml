@@ -86,6 +86,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
+          passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
             sudo docker-compose -f docker-compose.yml -p travelapper pull
