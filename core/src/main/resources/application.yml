@@ -1,8 +1,8 @@
 app-version: "1.0"
 
 authorization:
-  secret: temporarySecret
-
+  secret: ${AUTH_SECRET}
+  
 spring:
   application:
     name: core
