@@ -15,7 +15,7 @@ spring:
       client:
         registration:
           github:
-            clientId: efbaf1924aa2b3c0df98
+            clientId: ${GITHUB_APPLICATION_ID}
             clientSecret: ${GITHUB_APPLICATION_SECRET}
   mail:
     protocol: smtp
