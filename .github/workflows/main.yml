@@ -88,6 +88,4 @@ jobs:
           privateKey: ${{ secrets.SERVER_KEY }}
           passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           port: ${{ secrets.SERVER_PORT }}
-          script: |
-            sudo docker-compose -f docker-compose.yml -p travelapper pull
-            sudo docker-compose -f docker-compose.yml -p travelapper up -d
+          command: sudo docker-compose -f docker-compose.yml -p travelapper pull && sudo docker-compose -f docker-compose.yml -p travelapper up -d
