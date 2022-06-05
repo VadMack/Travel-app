@@ -6,9 +6,9 @@ spring:
       authentication-database: admin
       database: travel-app
       host: ${mongo}
-      password: admin
-      port: 27018
-      username: admin
+      password: ${mongopass}
+      port: 27017
+      username: ${mongouser}
       auto-index-creation: true
   security:
     oauth2:
