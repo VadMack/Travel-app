@@ -31,7 +31,7 @@ public class Point {
     private String additionalInfo;
     private PointType type;
     private Price price;
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
     @OneToMany(cascade = CascadeType.ALL)
