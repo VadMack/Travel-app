@@ -14,6 +14,6 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 
     @Override
     public void onApplicationEvent(@NotNull OnRegistrationCompleteEvent event) {
-        emailUtil.sendLink(event, "/registrationConfirm", "Registration Confirmation", TokenType.PASSWORD_RESET);
+        emailUtil.sendLink(event, "/registrationConfirm", "Registration Confirmation", TokenType.REGISTRATION);
     }
 }

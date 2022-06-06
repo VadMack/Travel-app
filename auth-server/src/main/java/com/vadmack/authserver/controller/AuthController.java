@@ -60,12 +60,18 @@ public class AuthController {
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.saveUser(user);
+
+        String refreshToken = UUID.randomUUID().toString();
+        verificationTokenService.createVerificationToken(user, refreshToken, TokenType.REFRESH);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        userDto.setRefreshToken(refreshToken);
+
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.AUTHORIZATION,
                         jwtTokenUtil.generateAccessToken(user)
                 )
-                .body(modelMapper.map(user, UserDto.class));
+                .body(userDto);
     }
 
     @PostMapping("/auth")
