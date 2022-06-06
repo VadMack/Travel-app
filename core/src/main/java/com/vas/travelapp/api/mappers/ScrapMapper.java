@@ -10,8 +10,7 @@ import com.vas.travelapp.domain.point.enums.PointType;
 import com.vas.travelapp.domain.point.enums.Price;
 import lombok.extern.log4j.Log4j2;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
@@ -60,7 +59,7 @@ public class ScrapMapper {
             if (dto.getRating() != null) {
                 json.put("rating", dto.getRating());
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             log.error(e);
         }
         return json.toString();

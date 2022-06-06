@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the "dev" branch
   push:
-    branches: [ "dev" ]
+    branches: [ "sisd" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -48,30 +48,30 @@ jobs:
         name: Build and push eureka
         uses: docker/build-push-action@v3
         with:
-          context: /eureka-server
+          context: eureka-server
           push: true
-          tags: galex/travelapperapp-eureka:latest
+          tags: galex313/travelapperapp-eureka:latest
       -
         name: Build and push core
         uses: docker/build-push-action@v3
         with:
-          context: /core
+          context: core
           push: true
-          tags: galex/travelapperapp-core:latest
+          tags: galex313/travelapperapp-core:latest
       -
         name: Build and push auth
         uses: docker/build-push-action@v3
         with:
-          context: /auth-server
+          context: auth-server
           push: true
-          tags: galex/travelapperapp-auth:latest
+          tags: galex313/travelapperapp-auth:latest
       -
         name: Build and push gateway
         uses: docker/build-push-action@v3
         with:
-          context: /api-gateway
+          context: api-gateway
           push: true
-          tags: galex/travelapperapp-gateway:latest
+          tags: galex313/travelapperapp-gateway:latest
           
           
   deploy:
@@ -81,13 +81,11 @@ jobs:
     steps:
       -
         name: a
-        uses: appleboy/ssh-action@master
+        uses: garygrossgarten/github-action-ssh@v0.6.3
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           privateKey: ${{ secrets.SERVER_KEY }}
           passphrase: ${{ secrets.SERVER_PASSPHRASE }}
           port: ${{ secrets.SERVER_PORT }}
-          script: |
-            sudo docker-compose -f docker-compose.yml -p travelapper pull
-            sudo docker-compose -f docker-compose.yml -p travelapper up -d
+          command: docker-compose -f docker-compose.yml -p travelapper pull && docker-compose -f docker-compose.yml -p travelapper up -d

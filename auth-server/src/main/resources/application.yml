@@ -5,17 +5,17 @@ spring:
     mongodb:
       authentication-database: admin
       database: travel-app
-      host: localhost
-      password: admin
-      port: 27018
-      username: admin
+      host: ${mongo}
+      password: ${mongopass}
+      port: 27017
+      username: ${mongouser}
       auto-index-creation: true
   security:
     oauth2:
       client:
         registration:
           github:
-            clientId: efbaf1924aa2b3c0df98
+            clientId: ${GITHUB_APPLICATION_ID}
             clientSecret: ${GITHUB_APPLICATION_SECRET}
   mail:
     protocol: smtp
@@ -61,7 +61,7 @@ server:
 eureka:
   client:
     service-url:
-      default-zone: http://localhost:8761/eureka
+      defaultZone: http://${eureka}:8761/eureka
 
 mongock:
   migration-scan-package: com.vas.travelapp.migration

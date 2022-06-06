@@ -1,8 +1,8 @@
 app-version: "1.0"
 
 authorization:
-  secret: temporarySecret
-
+  secret: ${AUTH_SECRET}
+  
 spring:
   application:
     name: core
@@ -11,7 +11,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: toor
     password: postgres
-    url: jdbc:postgresql://localhost:5433/
+    url: jdbc:postgresql://${postgres}:5432/
   jpa:
     open-in-view: false
     show-sql: false
@@ -27,7 +27,7 @@ spring:
 
 poi-poller:
   enabled: true
-  cron: "0 */5 * * * *"
+  cron: "0 0 */2 * * *"
   placesApiUrl: "https://maps.googleapis.com/maps/api/place"
   placesKey: ${GOOGLE_PLACES_KEY}
   
@@ -37,4 +37,4 @@ server:
 eureka:
   client:
     service-url:
-      default-zone: http://localhost:8761/eureka
+      defaultZone: http://${eureka}:8761/eureka

@@ -21,7 +21,7 @@ import static javax.persistence.GenerationType.AUTO;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "point")
-@Table(name = "points", schema = "travelapp")
+@Table(name = "points", schema = "public")
 public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,10 +32,10 @@ public class Point {
     private String additionalInfo;
     private PointType type;
     private Price price;
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "operation_hours_id")
     private List<OperationHours> operationHours;
 
