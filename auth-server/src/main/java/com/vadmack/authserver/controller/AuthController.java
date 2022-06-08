@@ -1,8 +1,8 @@
 package com.vadmack.authserver.controller;
 
-import com.vadmack.authserver.config.security.JwtTokenUtil;
-import com.vadmack.authserver.config.security.OnPasswordResetEvent;
-import com.vadmack.authserver.config.security.OnRegistrationCompleteEvent;
+import com.vadmack.authserver.security.JwtTokenUtil;
+import com.vadmack.authserver.security.event.OnPasswordResetEvent;
+import com.vadmack.authserver.security.event.OnRegistrationCompleteEvent;
 import com.vadmack.authserver.domain.dto.*;
 import com.vadmack.authserver.domain.entity.*;
 import com.vadmack.authserver.service.UserService;

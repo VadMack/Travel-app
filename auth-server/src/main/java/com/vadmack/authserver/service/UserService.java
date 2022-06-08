@@ -1,6 +1,6 @@
 package com.vadmack.authserver.service;
 
-import com.vadmack.authserver.config.security.SecurityConfig;
+import com.vadmack.authserver.security.SecurityConfig;
 import com.vadmack.authserver.domain.dto.RegistrationRequest;
 import com.vadmack.authserver.domain.dto.UserDto;
 import com.vadmack.authserver.domain.dto.UserDtoForUpdate;

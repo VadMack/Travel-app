@@ -1,4 +1,4 @@
-package com.vadmack.authserver.config.security;
+package com.vadmack.authserver.security.event;
 
 import com.vadmack.authserver.domain.entity.User;
 import lombok.Getter;

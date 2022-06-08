@@ -1,4 +1,4 @@
-package com.vadmack.authserver.config.security;
+package com.vadmack.authserver.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.AuthenticationException;

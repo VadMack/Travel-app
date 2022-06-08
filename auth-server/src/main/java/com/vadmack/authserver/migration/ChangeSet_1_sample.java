@@ -1,7 +1,7 @@
 package com.vadmack.authserver.migration;
 
 
-import com.vadmack.authserver.config.security.SecurityConfig;
+import com.vadmack.authserver.security.SecurityConfig;
 import com.vadmack.authserver.domain.entity.Role;
 import com.vadmack.authserver.domain.entity.User;
 import com.vadmack.authserver.repository.UserRepository;

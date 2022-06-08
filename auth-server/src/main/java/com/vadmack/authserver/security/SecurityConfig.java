@@ -1,4 +1,4 @@
-package com.vadmack.authserver.config.security;
+package com.vadmack.authserver.security;
 
 import com.vadmack.authserver.domain.entity.Role;
 import com.vadmack.authserver.domain.entity.User;

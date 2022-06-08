@@ -1,4 +1,4 @@
-package com.vas.travelapp.config.security;
+package com.vas.travelapp.security;
 
 
 import com.vas.travelapp.domain.user.Role;

@@ -1,7 +1,6 @@
-package com.vadmack.authserver.config.security;
+package com.vadmack.authserver.security;
 
 
-import com.vadmack.authserver.domain.entity.Role;
 import com.vadmack.authserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor

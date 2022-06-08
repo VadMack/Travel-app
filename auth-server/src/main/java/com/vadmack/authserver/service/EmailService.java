@@ -1,19 +1,19 @@
-package com.vadmack.authserver.config.security;
+package com.vadmack.authserver.service;
 
+import com.vadmack.authserver.security.event.AbstractCustomEvent;
 import com.vadmack.authserver.domain.entity.TokenType;
 import com.vadmack.authserver.domain.entity.User;
-import com.vadmack.authserver.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class EmailUtil {
+public class EmailService {
 
     private final VerificationTokenService verificationTokenService;
     private final MailSender mailSender;

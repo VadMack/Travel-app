@@ -1,4 +1,4 @@
-package com.vadmack.authserver.config.security;
+package com.vadmack.authserver.security;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
