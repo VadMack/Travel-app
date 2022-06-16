@@ -17,6 +17,9 @@ spring:
           github:
             clientId: ${GITHUB_APPLICATION_ID}
             clientSecret: ${GITHUB_APPLICATION_SECRET}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   mail:
     protocol: smtp
 
