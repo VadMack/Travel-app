@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -47,7 +48,7 @@ public class UserController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") Long id,
                                     @Valid @RequestBody UserDtoForUpdate userDto,
-                                    @AuthenticationPrincipal User user) {
+                                    @ApiIgnore @AuthenticationPrincipal User user) {
         userService.updateUser(id, userDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -55,7 +56,7 @@ public class UserController {
     @PreAuthorize("@userService.hasPermissionToUpdate(#id, #user.id)")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long id,
-                                    @AuthenticationPrincipal User user) {
+                                    @ApiIgnore @AuthenticationPrincipal User user) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
