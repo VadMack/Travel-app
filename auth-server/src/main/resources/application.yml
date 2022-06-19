@@ -39,7 +39,7 @@ spring:
       "mail.transport.protocol": smtp
       "mail.smtp.auth": true
       "mail.smtp.starttls.enable": true
-#      "mail.smtp.ssl.enable": true
+      "mail.smtp.ssl.enable": true
 
 
 app-version: "1.0"
