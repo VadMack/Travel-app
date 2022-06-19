@@ -22,12 +22,18 @@ spring:
       matching-strategy: ant_path_matcher
   mail:
     protocol: smtp
+    
+    # mailru config
+    host: smtp.mail.ru
+    port: 465
+    username: ${MAILRU_EMAIL}
+    password: ${MAILRU_PASSWORD}
 
     # Gmail config
-    host: smtp.gmail.com
-    port: 465
-    username: ${GMAIL_EMAIL}
-    password: ${GMAIL_PASSWORD}
+#    host: smtp.gmail.com
+#    port: 465
+#    username: ${GMAIL_EMAIL}
+#    password: ${GMAIL_PASSWORD}
 
     # Yandex config
 #    host: smtp.yandex.ru
