@@ -1,23 +1,28 @@
 package com.vas.travelapp.domain.point;
 
-import com.vas.travelapp.api.dtos.ScrapDto;
+import com.vas.travelapp.api.dtos.RequestDto;
 import com.vas.travelapp.api.dtos.ScrapListDto;
 import com.vas.travelapp.api.dtos.TypeActivity;
 import com.vas.travelapp.api.mappers.ScrapMapper;
 import com.vas.travelapp.common.Cities;
 import com.vas.travelapp.domain.point.enums.PointType;
+import com.vas.travelapp.domain.point.enums.Price;
 import com.vas.travelapp.domain.route.Preferences;
 import com.vas.travelapp.domain.route.stategies.*;
 import com.vas.travelapp.web.PlacesWebService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.PostConstruct;
+import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -87,8 +92,20 @@ public class PointService {
 
     }
 
-    public List<Point> findAll(Pageable pageable) {
-        return pointRepository.findAll(pageable).getContent();
+    @PostConstruct
+    void save() {
+        pointRepository.save(new Point());
+    }
+
+    public List<Point> findAll(RequestDto requestDto) {
+        Set<Integer> prices = requestDto.getPrices().stream().map(Price::ordinal).collect(Collectors.toSet());
+        Set<Integer> types = requestDto.getTypes().stream().map(PointType::ordinal).collect(Collectors.toSet());
+        if (requestDto.getOpen()) {
+            int dayOfWeek = ZonedDateTime.now().getDayOfWeek().getValue();
+            Timestamp time = Timestamp.valueOf(ZonedDateTime.now().toLocalDateTime());
+            return pointRepository.findPointsByRequestOpen(time, prices, dayOfWeek, types, requestDto.getLongitude(), requestDto.getLatitude(), 10000);
+        }
+        return pointRepository.findPointsByRequest(prices, types, requestDto.getLongitude(), requestDto.getLatitude(), 10000);
     }
 
 }
