@@ -55,12 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority(Role.ROLE_ADMIN)
                 .antMatchers(HttpMethod.PUT, "/api/users/**")
                 .hasAnyAuthority(Role.ROLE_ADMIN, Role.ROLE_USER)
-                .antMatchers("/api/public/oauth2/github").authenticated()
-                .and()
-                .oauth2Login();
+//                .antMatchers("/api/public/oauth2/github").authenticated()
 //                .and()
-//                .exceptionHandling()
-//                .authenticationEntryPoint(authenticationEntryPoint());
+//                .oauth2Login();
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint());
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

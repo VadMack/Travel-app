@@ -18,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.Set;
@@ -116,17 +117,17 @@ public class AuthController {
                 .body(userDto);
     }
 
-    @GetMapping("/oauth2/github")
-    public ResponseEntity<UserDto> loginWithGithub(OAuth2AuthenticationToken principal) {
-        User user = userService.findExistedOrCreate(principal.getPrincipal()
-                .getAttribute("login"), UserType.GITHUB, Set.of(new Role(Role.ROLE_USER)), true);
-        return ResponseEntity.ok()
-                .header(
-                        HttpHeaders.AUTHORIZATION,
-                        jwtTokenUtil.generateAccessToken(user)
-                )
-                .body(modelMapper.map(user, UserDto.class));
-    }
+//    @GetMapping("/oauth2/github")
+//    public ResponseEntity<UserDto> loginWithGithub(@ApiIgnore OAuth2AuthenticationToken principal) {
+//        User user = userService.findExistedOrCreate(principal.getPrincipal()
+//                .getAttribute("login"), UserType.GITHUB, Set.of(new Role(Role.ROLE_USER)), true);
+//        return ResponseEntity.ok()
+//                .header(
+//                        HttpHeaders.AUTHORIZATION,
+//                        jwtTokenUtil.generateAccessToken(user)
+//                )
+//                .body(modelMapper.map(user, UserDto.class));
+//    }
 
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
@@ -142,11 +143,5 @@ public class AuthController {
         User user = verificationToken.getUser();
         userService.updateUser(user.getId(),  new UserDtoForUpdate(user.getUsername(), request.getPassword()));
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    // fixme: endpoint for test
-    @GetMapping("/bebra")
-    public String bebra(){
-        return  "bebra";
     }
 }
