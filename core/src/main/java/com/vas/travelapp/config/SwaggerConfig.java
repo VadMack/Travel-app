@@ -29,6 +29,7 @@ public class SwaggerConfig {
                 .securitySchemes(Arrays.asList(apiKey()))
                 .select()
                 .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.vas.travelapp.api.controllers"))
                 .build();
     }
 
