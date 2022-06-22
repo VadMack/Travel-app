@@ -15,7 +15,7 @@ import java.util.Set;
 public class RouteRomance implements RouteStrategy {
 
     private static final Set<Integer> POINT_TYPES =
-            Set.of(PointType.CAFE.ordinal(), PointType.GALLERY.ordinal(), PointType.BAR.ordinal(), PointType.MUSEUM.ordinal());
+            Set.of(PointType.NO_TYPE.ordinal(), PointType.CAFE.ordinal(), PointType.GALLERY.ordinal(), PointType.BAR.ordinal(), PointType.MUSEUM.ordinal());
     private final RouteService routeService;
 
     @Override
